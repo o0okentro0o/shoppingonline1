@@ -1,0 +1,45 @@
+Table "Admin" {
+  "Username" VARCHAR(50) [pk]
+  "Password" TEXT
+}
+Table "Category" {
+  "ID" INT [pk, increment]
+  "Name" TEXT
+}
+Table "Customer" {
+  "ID" INT [pk, increment]
+  "Username" TEXT
+  "Password" TEXT
+  "Name" TEXT
+  "Phone" TEXT
+  "Email" TEXT
+  "Active" INT
+  "Token" TEXT
+}
+Table "Product" {
+  "ID" INT [pk, increment]
+  "Name" TEXT
+  "Price" INT
+  "Image" LONGBLOB
+  "CDate" BIGINT
+  "CatID" INT
+}
+Table "COrder" {
+  "ID" INT [pk, increment]
+  "CDate" BIGINT
+  "Total" BIGINT
+  "Status" TEXT
+  "CustID" INT
+}
+Table "OrderDetail" {
+  "OrderID" INT
+  "ProdID" INT
+  "Quantity" INT
+  Indexes {
+    (OrderID, ProdID) [pk]
+  }
+}
+Ref:"Category"."ID" < "Product"."CatID"
+Ref:"Customer"."ID" < "COrder"."CustID"
+Ref:"COrder"."ID" < "OrderDetail"."OrderID"
+Ref:"Product"."ID" < "OrderDetail"."ProdID"
